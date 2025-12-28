@@ -1,4 +1,4 @@
-import type { Route } from "./+types/oauth.github";
+import type { Route } from "./+types/oauth.auth0";
 import { buildAuthorizationUrl } from "~/services/oauth/handler";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
@@ -14,15 +14,15 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
   // Build OAuth URL using shared handler
   const redirectUri = new URL(request.url);
-  redirectUri.pathname = "/oauth/github/callback";
+  redirectUri.pathname = "/oauth/auth0/callback";
   const authUrl = buildAuthorizationUrl(
-    "github",
+    "auth0",
     stateB64,
     redirectUri.toString(),
     context.cloudflare.env
   );
 
-  // Redirect to GitHub with state cookie
+  // Redirect to Auth0 with state cookie
   return new Response(null, {
     status: 302,
     headers: {

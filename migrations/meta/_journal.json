@@ -15,6 +15,13 @@
       "when": 1766923371988,
       "tag": "0001_glamorous_black_tom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1766930964822,
+      "tag": "0002_whole_pixie",
+      "breakpoints": true
     }
   ]
 }

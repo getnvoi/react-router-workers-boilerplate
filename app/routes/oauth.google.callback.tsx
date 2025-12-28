@@ -1,4 +1,4 @@
-import type { Route } from "./+types/oauth.github.callback";
+import type { Route } from "./+types/oauth.google.callback";
 import { redirect } from "react-router";
 import { getSession } from "~/sessions.server";
 import { handleOAuthCallback } from "~/services/oauth/handler";
@@ -25,7 +25,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
     // Handle OAuth callback with shared handler
     const user = await handleOAuthCallback(
-      "github",
+      "google",
       code,
       redirectUri.toString(),
       context.cloudflare.env
@@ -34,7 +34,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     // Create user session and redirect to app
     return createUserSession(user, "/app");
   } catch (error) {
-    console.error("GitHub OAuth error:", error);
+    console.error("Google OAuth error:", error);
     return redirect("/?error=oauth_failed");
   }
 }
