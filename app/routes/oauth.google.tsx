@@ -19,7 +19,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "google",
     stateB64,
     redirectUri.toString(),
-    context.cloudflare.env
+    context.cloudflare.env,
   );
 
   // Redirect to Google with state cookie

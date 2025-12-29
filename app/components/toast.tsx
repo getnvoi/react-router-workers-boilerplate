@@ -1,102 +1,80 @@
 import * as React from "react";
-import { Toast as BaseToast, useToastManager } from "@base-ui/react/toast";
+import { Toast as BaseToast } from "@base-ui/react/toast";
+import { X } from "lucide-react";
 import styles from "./toast.module.css";
+
+/**
+ * Toast Component - Notification toast messages
+ *
+ * Note: Base UI Toast requires manual management. For a full toast system,
+ * consider using a library like sonner or react-hot-toast.
+ *
+ * @example
+ * // Basic toast
+ * <Toast.Provider>
+ *   <Toast.Root>
+ *     <Toast.Title>Success</Toast.Title>
+ *     <Toast.Description>Your changes have been saved.</Toast.Description>
+ *     <Toast.Close />
+ *   </Toast.Root>
+ * </Toast.Provider>
+ */
 
 type ToastVariant = "info" | "success" | "warning" | "error";
 
-interface ToastProviderProps {
-  children: React.ReactNode;
+interface ToastProviderProps extends BaseToast.Provider.Props {
+  className?: string;
 }
 
-export function ToastProvider({ children }: ToastProviderProps) {
-  return <BaseToast.Provider>{children}</BaseToast.Provider>;
+function ToastProvider({ className = "", ...props }: ToastProviderProps) {
+  return <BaseToast.Provider className={className} {...props} />;
 }
 
-interface ToastItemProps {
+interface ToastRootProps extends BaseToast.Root.Props {
+  className?: string;
   variant?: ToastVariant;
-  title?: string;
-  description?: string;
 }
 
-function ToastItem({ variant = "info", title, description }: ToastItemProps) {
-  const classes = [styles.root, styles[variant]].filter(Boolean).join(" ");
+function ToastRoot({ className = "", variant = "info", ...props }: ToastRootProps) {
+  const classes = [styles.root, styles[variant], className].filter(Boolean).join(" ");
+  return <BaseToast.Root className={classes} {...props} />;
+}
 
+interface ToastTitleProps extends BaseToast.Title.Props {
+  className?: string;
+}
+
+function ToastTitle({ className = "", ...props }: ToastTitleProps) {
+  return <BaseToast.Title className={`${styles.title} ${className}`} {...props} />;
+}
+
+interface ToastDescriptionProps extends BaseToast.Description.Props {
+  className?: string;
+}
+
+function ToastDescription({ className = "", ...props }: ToastDescriptionProps) {
+  return <BaseToast.Description className={`${styles.description} ${className}`} {...props} />;
+}
+
+interface ToastCloseProps extends BaseToast.Close.Props {
+  className?: string;
+}
+
+function ToastClose({ className = "", ...props }: ToastCloseProps) {
   return (
-    <BaseToast.Root className={classes}>
-      <div className={styles.content}>
-        {title && <BaseToast.Title className={styles.title}>{title}</BaseToast.Title>}
-        {description && (
-          <BaseToast.Description className={styles.description}>
-            {description}
-          </BaseToast.Description>
-        )}
-      </div>
-      <BaseToast.Close className={styles.close}>
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 4L4 12M4 4L12 12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </BaseToast.Close>
-    </BaseToast.Root>
+    <BaseToast.Close className={`${styles.close} ${className}`} {...props}>
+      <X size={16} />
+    </BaseToast.Close>
   );
 }
 
-// Convenience hook for creating toasts
-export function useToast() {
-  const manager = useToastManager();
+export const Toast = {
+  Provider: ToastProvider,
+  Root: ToastRoot,
+  Title: ToastTitle,
+  Description: ToastDescription,
+  Close: ToastClose,
+};
 
-  const show = React.useCallback(
-    (variant: ToastVariant, title: string, description?: string) => {
-      return manager.push(
-        <ToastItem variant={variant} title={title} description={description} />
-      );
-    },
-    [manager]
-  );
-
-  const dismiss = React.useCallback(
-    (id: number) => {
-      manager.remove(id);
-    },
-    [manager]
-  );
-
-  const info = React.useCallback(
-    (title: string, description?: string) => show("info", title, description),
-    [show]
-  );
-
-  const success = React.useCallback(
-    (title: string, description?: string) => show("success", title, description),
-    [show]
-  );
-
-  const warning = React.useCallback(
-    (title: string, description?: string) => show("warning", title, description),
-    [show]
-  );
-
-  const error = React.useCallback(
-    (title: string, description?: string) => show("error", title, description),
-    [show]
-  );
-
-  return {
-    show,
-    dismiss,
-    info,
-    success,
-    warning,
-    error,
-  };
-}
+// Re-export provider for convenience
+export { ToastProvider };

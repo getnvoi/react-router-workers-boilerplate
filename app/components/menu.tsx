@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { MenuItem, MenuItemRenderer } from "./menu-item";
+import { MenuItemRenderer, type MenuItem } from "./menu-item";
 import styles from "./menu.module.css";
 
 /**

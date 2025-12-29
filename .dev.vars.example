@@ -59,6 +59,28 @@ SESSION_SECRET=your_session_secret_here_min_32_chars_use_openssl_rand_hex_32
 # AUTH0_CLIENT_ID=your_auth0_client_id_here
 # AUTH0_CLIENT_SECRET=your_auth0_client_secret_here
 
+# ------------------------------------------------------------------------------
+# Anthropic/Claude OAuth (Built-in)
+# ------------------------------------------------------------------------------
+# Anthropic OAuth is ALWAYS available and requires NO configuration!
+#
+# How it works:
+# 1. Navigate to http://localhost:3000/oauth/anthropic
+# 2. Click "Open Claude Authorization" to visit claude.ai
+# 3. Authorize your Claude account
+# 4. Copy the authorization code shown by Anthropic
+# 5. Paste it back into the form and submit
+# 6. You're authenticated!
+#
+# Technical details:
+# - Uses PKCE (Proof Key for Code Exchange) flow - more secure than client secrets
+# - No client secret needed - works out of the box
+# - Manual code entry required (Anthropic redirects to their console, not your app)
+# - Client ID: 9d1c250a-e61b-44d9-88ed-5944d1962f5e (hardcoded, public)
+# - Scopes: org:create_api_key user:profile user:inference
+#
+# No environment variables needed for Anthropic OAuth!
+
 # ==============================================================================
 # Production Deployment
 # ==============================================================================
@@ -80,6 +102,12 @@ SESSION_SECRET=your_session_secret_here_min_32_chars_use_openssl_rand_hex_32
 #   wrangler secret put AUTH0_CLIENT_ID --env production
 #   wrangler secret put AUTH0_CLIENT_SECRET --env production
 #
+# Anthropic OAuth:
+#   No secrets needed - works out of the box!
+#
 # IMPORTANT: Update OAuth callback URLs in provider settings to use your
 # production domain (e.g., https://yourdomain.com/oauth/{provider}/callback)
+#
+# Note: Anthropic OAuth uses https://yourdomain.com/oauth/anthropic
+# (manual code entry flow, no callback URL needed)
 # ==============================================================================

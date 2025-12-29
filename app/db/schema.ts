@@ -5,7 +5,7 @@ export const users = sqliteTable("users", {
   id: text("id").primaryKey(), // UUID
   email: text("email").notNull(), // User email (required)
 
-  // OAuth provider info
+  // OAuth provider info (primary login)
   provider: text("provider"), // 'github', 'google', 'auth0' (nullable for migration)
   remoteId: text("remote_id"), // Provider's user ID
   accessToken: text("access_token").notNull(), // OAuth access token
@@ -14,6 +14,12 @@ export const users = sqliteTable("users", {
   login: text("login"), // GitHub username (optional)
   name: text("name"),
   avatarUrl: text("avatar_url"),
+
+  // Anthropic/Claude OAuth (secondary authentication)
+  anthropicAccessToken: text("anthropic_access_token"),
+  anthropicRefreshToken: text("anthropic_refresh_token"),
+  anthropicExpiresAt: text("anthropic_expires_at"),
+  anthropicScopes: text("anthropic_scopes"), // JSON array of scopes
 
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)

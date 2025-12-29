@@ -6,6 +6,7 @@
  */
 
 export { Button } from "./button";
+export { LinkButton } from "./link-button";
 export { Avatar } from "./avatar";
 export { Dialog } from "./dialog";
 export { Checkbox } from "./checkbox";
@@ -14,7 +15,7 @@ export type { CheckboxOption } from "./checkbox-group";
 export { Switch } from "./switch";
 export { Field } from "./field";
 export { Input } from "./input";
-export { Toast, ToastProvider, useToast } from "./toast";
+export { Toast, ToastProvider } from "./toast";
 export { Accordion } from "./accordion";
 export { AlertDialog } from "./alert-dialog";
 export { Combobox } from "./combobox";

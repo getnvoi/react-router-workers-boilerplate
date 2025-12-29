@@ -39,7 +39,7 @@ import styles from "./form.module.css";
  *   <Field.Root name="email">
  *     <Field.Label>Email</Field.Label>
  *     <Field.Control type="email" />
- *     <Field.Error /> {/* Shows server error automatically */}
+ *     <Field.Error />
  *   </Field.Root>
  *   <button type="submit">Register</button>
  * </Form.Root>
@@ -86,7 +86,6 @@ import styles from "./form.module.css";
  *     <Field.Error match="valueMissing">Required</Field.Error>
  *     <Field.Error match="typeMismatch">Invalid email</Field.Error>
  *   </Field.Root>
- *   {/* Validation triggers when field loses focus */}
  *   <button type="submit">Submit</button>
  * </Form.Root>
  *

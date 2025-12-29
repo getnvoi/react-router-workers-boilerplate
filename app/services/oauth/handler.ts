@@ -5,6 +5,7 @@ import type { SessionUser } from "~/sessions.server";
 import { githubProvider } from "./providers/github";
 import { googleProvider } from "./providers/google";
 import { createAuth0Provider } from "./providers/auth0";
+import { anthropicProvider } from "./providers/anthropic";
 
 /**
  * Get the appropriate OAuth provider
@@ -17,6 +18,8 @@ export function getOAuthProvider(providerName: string, env: Env) {
       return googleProvider;
     case "auth0":
       return createAuth0Provider(env);
+    case "anthropic":
+      return anthropicProvider;
     default:
       throw new Error(`Unknown OAuth provider: ${providerName}`);
   }
@@ -176,13 +179,18 @@ export function isProviderConfigured(providerName: string, env: Env): boolean {
         env.AUTH0_CLIENT_SECRET &&
         env.AUTH0_DOMAIN
       );
+    case "anthropic":
+      // Anthropic uses PKCE flow - no client secret needed
+      // It's always available
+      return true;
     default:
       return false;
   }
 }
 
 /**
- * Get all configured providers
+ * Get all configured providers (for public login)
+ * Note: Anthropic is excluded as it's a secondary authentication method
  */
 export function getConfiguredProviders(env: Env): string[] {
   const allProviders = ["github", "google", "auth0"];

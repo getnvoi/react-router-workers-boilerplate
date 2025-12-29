@@ -182,7 +182,7 @@ export function ComboboxAsync({
                   : emptyMessage}
               </div>
             ) : (
-              <BaseCombobox.Listbox className={styles.listbox}>
+              <>
                 {options.map((option) => (
                   <BaseCombobox.Item
                     key={option.value}
@@ -194,7 +194,7 @@ export function ComboboxAsync({
                     <span>{option.label}</span>
                   </BaseCombobox.Item>
                 ))}
-              </BaseCombobox.Listbox>
+              </>
             )}
 
             <BaseCombobox.Status className="sr-only">

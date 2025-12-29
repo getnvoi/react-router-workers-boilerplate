@@ -192,7 +192,6 @@ export function ComboboxCreatable({
 
         <BaseCombobox.Positioner className={styles.positioner}>
           <BaseCombobox.Popup className={styles.popup}>
-            <BaseCombobox.Listbox className={styles.listbox}>
               {isGroupedOptions(options) ? (
                 // Render grouped options
                 options.map((group) => {
@@ -235,7 +234,6 @@ export function ComboboxCreatable({
                   </BaseCombobox.Item>
                 ))
               )}
-            </BaseCombobox.Listbox>
 
             {/* Create option */}
             {shouldShowCreate && (

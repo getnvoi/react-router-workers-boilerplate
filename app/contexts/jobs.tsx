@@ -89,7 +89,8 @@ export function JobsProvider({
     connect();
 
     return () => {
-      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      if (reconnectTimeoutRef.current)
+        clearTimeout(reconnectTimeoutRef.current);
       wsRef.current?.close();
     };
   }, []);

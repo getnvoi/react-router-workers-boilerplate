@@ -28,7 +28,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
       "github",
       code,
       redirectUri.toString(),
-      context.cloudflare.env
+      context.cloudflare.env,
     );
 
     // Create user session and redirect to app

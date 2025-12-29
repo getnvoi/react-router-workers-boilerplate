@@ -224,21 +224,18 @@ export function ComboboxAsyncCreatable({
               </div>
             ) : (
               <>
-                {options.length > 0 && (
-                  <BaseCombobox.Listbox className={styles.listbox}>
-                    {options.map((option) => (
-                      <BaseCombobox.Item
-                        key={option.value}
-                        value={option.value}
-                        className={styles.item}
-                        disabled={option.disabled}
-                      >
-                        <Check size={16} className={styles.checkIcon} />
-                        <span>{option.label}</span>
-                      </BaseCombobox.Item>
-                    ))}
-                  </BaseCombobox.Listbox>
-                )}
+                {options.length > 0 &&
+                  options.map((option) => (
+                    <BaseCombobox.Item
+                      key={option.value}
+                      value={option.value}
+                      className={styles.item}
+                      disabled={option.disabled}
+                    >
+                      <Check size={16} className={styles.checkIcon} />
+                      <span>{option.label}</span>
+                    </BaseCombobox.Item>
+                  ))}
 
                 {/* Create option */}
                 {shouldShowCreate && (

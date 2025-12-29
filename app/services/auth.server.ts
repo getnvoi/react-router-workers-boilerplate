@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import { getDb, users } from "~/db";
+import { type getDb, users } from "~/db";
 import { getSession, commitSession, destroySession } from "~/sessions.server";
 import type { SessionUser } from "~/sessions.server";
 
@@ -38,10 +38,16 @@ export async function exchangeGitHubCode(
   });
 
   if (!tokenResp.ok) {
-    throw new Error("OAuth token exchange failed");
+    const errorText = await tokenResp.text();
+    throw new Error(`OAuth token exchange failed: ${errorText}`);
   }
 
-  const tokenData = (await tokenResp.json()) as GitHubTokenResponse;
+  const text = await tokenResp.text();
+  if (!text) {
+    throw new Error("Empty response from GitHub OAuth");
+  }
+
+  const tokenData = JSON.parse(text) as GitHubTokenResponse;
 
   if (!tokenData.access_token) {
     throw new Error("No access token received");
@@ -63,10 +69,16 @@ export async function fetchGitHubUser(
   });
 
   if (!ghUserResp.ok) {
-    throw new Error("Failed to fetch GitHub user");
+    const errorText = await ghUserResp.text();
+    throw new Error(`Failed to fetch GitHub user: ${errorText}`);
   }
 
-  return (await ghUserResp.json()) as GitHubUser;
+  const text = await ghUserResp.text();
+  if (!text) {
+    throw new Error("Empty response from GitHub API");
+  }
+
+  return JSON.parse(text) as GitHubUser;
 }
 
 export async function upsertUser(

@@ -96,7 +96,6 @@ export function Select({
 
         <BaseSelect.Positioner className={styles.positioner}>
           <BaseSelect.Popup className={styles.popup}>
-            <BaseSelect.Listbox className={styles.listbox}>
               {isGroupedOptions(options)
                 ? // Render grouped options
                   options.map((group) => (
@@ -137,7 +136,6 @@ export function Select({
                       <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
                     </BaseSelect.Item>
                   ))}
-            </BaseSelect.Listbox>
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
       </BaseSelect.Root>

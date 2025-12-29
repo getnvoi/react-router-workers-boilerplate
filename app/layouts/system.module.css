@@ -1,0 +1,49 @@
+.nav {
+  border-bottom: 1px solid var(--color-gray-200);
+  background: var(--color-gray-900);
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+.navContent {
+  display: flex;
+  height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: var(--spacing-1) var(--spacing-2);
+  background: var(--color-orange-600);
+  border-radius: var(--radius-sm);
+  color: var(--color-white);
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.navLink {
+  color: var(--color-gray-300);
+  transition: color var(--transition-base);
+}
+
+.navLink:hover {
+  color: var(--color-white);
+}

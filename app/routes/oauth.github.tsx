@@ -19,7 +19,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "github",
     stateB64,
     redirectUri.toString(),
-    context.cloudflare.env
+    context.cloudflare.env,
   );
 
   // Redirect to GitHub with state cookie

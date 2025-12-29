@@ -19,7 +19,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "auth0",
     stateB64,
     redirectUri.toString(),
-    context.cloudflare.env
+    context.cloudflare.env,
   );
 
   // Redirect to Auth0 with state cookie

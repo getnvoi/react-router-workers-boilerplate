@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Menubar as BaseMenubar } from "@base-ui/react/menubar";
-import { MenuItem, MenuItemRenderer } from "./menu-item";
+import { MenuItemRenderer, type MenuItem } from "./menu-item";
 import styles from "./menubar.module.css";
 
 /**

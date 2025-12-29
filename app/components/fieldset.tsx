@@ -126,7 +126,6 @@ import styles from "./fieldset.module.css";
  *   }
  * >
  *   <Fieldset.Legend>Payment Method</Fieldset.Legend>
- *   {/* fields */}
  * </Fieldset.Root>
  *
  * @example

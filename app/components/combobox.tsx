@@ -162,7 +162,6 @@ export function Combobox({
 
         <BaseCombobox.Positioner className={styles.positioner}>
           <BaseCombobox.Popup className={styles.popup}>
-            <BaseCombobox.Listbox className={styles.listbox}>
               {isGroupedOptions(options) ? (
                 // Render grouped options
                 options.map((group) => {
@@ -205,7 +204,6 @@ export function Combobox({
                   </BaseCombobox.Item>
                 ))
               )}
-            </BaseCombobox.Listbox>
 
             {filteredOptions.length === 0 && (
               <div className={styles.empty}>{emptyMessage}</div>

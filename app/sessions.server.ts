@@ -10,6 +10,7 @@ export type SessionUser = {
 type SessionData = {
   user: SessionUser;
   oauth_state?: string; // For CSRF protection during OAuth
+  oauth_verifier?: string; // For PKCE flow (Anthropic OAuth)
 };
 
 type SessionFlashData = {
