@@ -1,5 +1,5 @@
 import { eq, and } from "drizzle-orm";
-import { type getDb, workspaceInvites, users, workspaceUsers } from "~/db";
+import { type getDb, workspaceInvites, workspaceUsers } from "~/db";
 
 const INVITE_EXPIRY_DAYS = 7;
 
@@ -13,14 +13,11 @@ export async function createWorkspaceInvite(
   invitedByUserId: string,
   role: "member" | "admin" = "member"
 ): Promise<string> {
-  // Check if user with email exists
-  const existingUser = await db
-    .select({ id: users.id })
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1);
+  // Trim and lowercase email before processing
+  const normalizedEmail = email.trim().toLowerCase();
 
-  const userId = existingUser.length > 0 ? existingUser[0].id : null;
+  // userId is null at creation - set only when accepted
+  const userId = null;
 
   // Check for existing pending invite
   const existingInvite = await db
@@ -29,7 +26,7 @@ export async function createWorkspaceInvite(
     .where(
       and(
         eq(workspaceInvites.workspaceId, workspaceId),
-        eq(workspaceInvites.email, email),
+        eq(workspaceInvites.email, normalizedEmail),
         eq(workspaceInvites.status, "pending")
       )
     )
@@ -48,7 +45,7 @@ export async function createWorkspaceInvite(
   await db.insert(workspaceInvites).values({
     id: inviteId,
     workspaceId,
-    email,
+    email: normalizedEmail,
     userId,
     invitedByUserId,
     token,
@@ -97,8 +94,9 @@ export async function acceptInvite(
     throw new Error("Invite is no longer pending");
   }
 
-  // Verify user's email matches invite email
-  if (invite.email.toLowerCase() !== userEmail.toLowerCase()) {
+  // Verify user's email matches invite email (both already normalized)
+  const normalizedUserEmail = userEmail.trim().toLowerCase();
+  if (invite.email !== normalizedUserEmail) {
     throw new Error("This invite was sent to a different email address");
   }
 
