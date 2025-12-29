@@ -6,18 +6,18 @@ A modern, production-ready template for building full-stack React applications w
 
 ### Quick Start
 
-```bash
-# Run the setup script
-./setup.sh your-app-name
-
-# Or manually:
-# 1. Clone this repository
-# 2. Replace 'nvoi' with your app name in package.json and wrangler.jsonc
-```
+1. **Click "Use this template" on GitHub** to create your repository
+2. **Clone your new repository**
+3. **Run the setup script:**
+   ```bash
+   ./setup.sh your-app-name
+   ```
+   This automatically updates all configuration files with your app name.
 
 ### Environment Setup
 
 1. **Create D1 Databases:**
+
    ```bash
    wrangler d1 create your-app-name_production
    wrangler d1 create your-app-name_development
@@ -26,11 +26,13 @@ A modern, production-ready template for building full-stack React applications w
 2. **Copy database IDs to `wrangler.jsonc`**
 
 3. **Setup environment variables:**
+
    ```bash
    cp .dev.vars.example .dev.vars
    ```
 
 4. **Edit `.dev.vars` with your credentials:**
+
    ```env
    # OAuth Providers (optional - use any combination)
    GITHUB_CLIENT_ID=your_github_client_id
@@ -51,6 +53,7 @@ A modern, production-ready template for building full-stack React applications w
    ```
 
 5. **Run migrations:**
+
    ```bash
    npm run db:migrate:local
    ```
@@ -69,6 +72,7 @@ Supports GitHub, Google, and Auth0 out of the box. Configure providers in `.dev.
 ### Email/Password Authentication
 
 Users can also sign up and login with email/password:
+
 - **Password requirements**: Minimum 12 characters (bcrypt with 12 rounds)
 - **Routes**: `/auth/register` and `/auth/login`
 - **Auto-workspace creation**: Default workspace created on signup
@@ -96,6 +100,7 @@ Separate `system_users` table for admin/internal users (email/password only).
 5. **Auto-join**: Added to workspace_users on acceptance
 
 **Security:**
+
 - Invite tokens: UUID v4, one-time use
 - Expiry: 7 days
 - Email verification: Blocks wrong account acceptance
@@ -112,6 +117,7 @@ Separate `system_users` table for admin/internal users (email/password only).
    ```
 
 **Email service** (`app/services/email.server.ts`):
+
 - Sends workspace invitation emails
 - HTML and plain text versions
 - Customizable templates
@@ -157,6 +163,7 @@ See `app/components/README.md` for full documentation.
 **Stack**: Drizzle ORM + Cloudflare D1 (SQLite)
 
 **Tables:**
+
 - `users` - OAuth and email/password users
 - `system_users` - Admin/internal users
 - `workspaces` - Multi-tenant workspaces
@@ -165,6 +172,7 @@ See `app/components/README.md` for full documentation.
 - `jobs` - Background job queue
 
 **Migrations:**
+
 ```bash
 # Generate migration
 npm run db:generate
@@ -179,11 +187,13 @@ npm run db:migrate:prod
 ## ✅ Testing
 
 **Test Infrastructure:**
+
 - Miniflare for isolated D1 testing
 - Vitest with React Testing Library
 - 40 tests across auth, workspaces, and invites
 
 **Commands:**
+
 ```bash
 npm test              # Run once (CI mode)
 npm run test:watch    # Watch mode
@@ -191,6 +201,7 @@ npm run test:ui       # UI dashboard
 ```
 
 **Test helpers** (`app/tests/helpers/miniflare.ts`):
+
 - Shared Miniflare instance
 - Test DB initialization
 - Truncate/cleanup utilities
@@ -199,6 +210,7 @@ npm run test:ui       # UI dashboard
 ## 🔧 Development
 
 **Scripts:**
+
 ```bash
 npm run dev           # Start dev server
 npm run build         # Build for production
@@ -210,6 +222,7 @@ npm test              # Run tests
 ```
 
 **ESLint Configuration:**
+
 - Enforces `import type` for TypeScript types
 - Strict no-unused-vars (no exceptions)
 - All Cloudflare Workers globals defined
