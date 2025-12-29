@@ -7,16 +7,16 @@ A modern, production-ready template for building full-stack React applications w
 ### Quick Start
 
 ```bash
-# 1. Click "Use this template" on GitHub to create your repo
-# 2. Clone YOUR new repository
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
+# Using GitHub CLI
+gh repo create your-app-name --template getnvoi/react-router-workers-boilerplate --public
+cd your-app-name
 
-# 3. Run setup script
+# Run setup script
 ./setup.sh your-app-name
 
-# 4. Install dependencies
+# Install and start
 npm install
+npm run dev
 ```
 
 ### Environment Setup
