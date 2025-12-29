@@ -13,10 +13,30 @@ interface Invite {
 interface AcceptInviteViewProps {
   invite: Invite;
   user: SessionUser | null;
+  userEmail?: string;
   error?: string;
 }
 
-export function AcceptInviteView({ invite, user, error }: AcceptInviteViewProps) {
+export function AcceptInviteView({ invite, user, userEmail, error }: AcceptInviteViewProps) {
+  // Email mismatch - block screen
+  if (user && userEmail && invite.email.toLowerCase() !== userEmail.toLowerCase()) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>Wrong Account</h1>
+        <p className={styles.description}>
+          This invitation was sent to <strong>{invite.email}</strong>, but you're
+          logged in as <strong>{userEmail}</strong>.
+        </p>
+        <p className={styles.description} style={{ marginTop: "1rem" }}>
+          Please login with the correct account or ask for a new invitation.
+        </p>
+        <Button onClick={() => window.location.href = "/oauth/logout"} className={styles.button}>
+          Logout and try again
+        </Button>
+      </div>
+    );
+  }
+
   // User not logged in
   if (!user) {
     return (

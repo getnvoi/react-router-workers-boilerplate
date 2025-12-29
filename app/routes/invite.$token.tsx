@@ -1,6 +1,8 @@
 import { data, redirect } from "react-router";
+import { eq } from "drizzle-orm";
 import type { Route } from "./+types/invite.$token";
 import { getDb } from "~/db";
+import * as schema from "~/db/schema";
 import { getInviteByToken, acceptInvite, declineInvite } from "~/services/workspace-invite.server";
 import { getUserFromSession } from "~/services/auth.server";
 import { AcceptInviteView } from "~/views/invite/accept/accept-invite-view";
@@ -17,7 +19,18 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
 
   const user = await getUserFromSession(request);
 
-  return { invite, user };
+  // Get user's email if logged in
+  let userEmail: string | undefined;
+  if (user) {
+    const dbUser = await db
+      .select({ email: schema.users.email })
+      .from(schema.users)
+      .where(eq(schema.users.id, user.id))
+      .limit(1);
+    userEmail = dbUser[0]?.email;
+  }
+
+  return { invite, user, userEmail };
 }
 
 export async function action({ params, request, context }: Route.ActionArgs) {
@@ -34,7 +47,18 @@ export async function action({ params, request, context }: Route.ActionArgs) {
 
   try {
     if (action === "accept") {
-      await acceptInvite(db, token, user.id);
+      // Get user's email from database
+      const dbUser = await db
+        .select({ email: schema.users.email })
+        .from(schema.users)
+        .where(eq(schema.users.id, user.id))
+        .limit(1);
+
+      if (dbUser.length === 0) {
+        throw new Error("User not found");
+      }
+
+      await acceptInvite(db, token, user.id, dbUser[0].email);
       return redirect("/app");
     } else if (action === "decline") {
       await declineInvite(db, token);
@@ -55,6 +79,7 @@ export default function InviteAccept({ loaderData, actionData }: Route.Component
     <AcceptInviteView
       invite={loaderData.invite}
       user={loaderData.user}
+      userEmail={loaderData.userEmail}
       error={actionData?.error}
     />
   );
