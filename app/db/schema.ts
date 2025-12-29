@@ -29,7 +29,7 @@ export const users = sqliteTable("users", {
 
 export const workspaces = sqliteTable("workspaces", {
   id: text("id").primaryKey(), // UUID
-  name: text("name").notNull(),
+  label: text("label").notNull(),
   createdAt: text("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),

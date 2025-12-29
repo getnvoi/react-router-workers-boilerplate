@@ -15,9 +15,9 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate:local": "wrangler d1 migrations apply nvoi_development --local",
 		"db:migrate:prod": "wrangler d1 migrations apply nvoi_production --remote --env production",
-		"test": "vitest",
-		"test:ui": "vitest --ui",
-		"test:run": "vitest run"
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:ui": "vitest --ui"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.0.0",
@@ -42,6 +42,7 @@
 		"drizzle-kit": "^0.31.5",
 		"eslint": "^9.39.2",
 		"happy-dom": "^20.0.11",
+		"miniflare": "^4.20251217.0",
 		"typescript": "^5.9.2",
 		"vite": "^7.1.7",
 		"vite-tsconfig-paths": "^5.1.4",

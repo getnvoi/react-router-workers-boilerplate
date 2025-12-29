@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import type { NormalizedUser } from "./types";
 import { getDb, users } from "~/db";
 import type { SessionUser } from "~/sessions.server";
+import { ensureUserHasWorkspace } from "~/services/workspace.server";
 import { githubProvider } from "./providers/github";
 import { googleProvider } from "./providers/google";
 import { createAuth0Provider } from "./providers/auth0";
@@ -121,6 +122,9 @@ async function findOrCreateUser(
       })
       .where(eq(users.id, existingUser.id));
 
+    // Ensure user has a workspace
+    await ensureUserHasWorkspace(db, existingUser.id, userInfo.name || userInfo.login);
+
     return {
       id: existingUser.id,
       login: userInfo.login || existingUser.login || "",
@@ -143,6 +147,9 @@ async function findOrCreateUser(
     avatarUrl: userInfo.avatarUrl,
     lastLoginAt: new Date().toISOString(),
   });
+
+  // Create default workspace for new user
+  await ensureUserHasWorkspace(db, userId, userInfo.name || userInfo.login);
 
   return {
     id: userId,
