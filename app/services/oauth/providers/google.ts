@@ -23,7 +23,7 @@ export const googleProvider: OAuthProvider = {
   async exchangeToken(
     code: string,
     redirectUri: string,
-    env: Env
+    env: Env,
   ): Promise<TokenResponse> {
     const response = await fetch(TOKEN_URL, {
       method: "POST",

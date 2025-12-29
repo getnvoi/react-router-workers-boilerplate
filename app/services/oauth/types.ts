@@ -20,7 +20,7 @@ export interface OAuthProvider {
   exchangeToken: (
     code: string,
     redirectUri: string,
-    env: Env
+    env: Env,
   ) => Promise<TokenResponse>;
   fetchUserInfo: (accessToken: string) => Promise<NormalizedUser>;
 }

@@ -1,4 +1,4 @@
-import { eq, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { NormalizedUser } from "./types";
 import { getDb, users } from "~/db";
 import type { SessionUser } from "~/sessions.server";
@@ -32,7 +32,7 @@ export function buildAuthorizationUrl(
   providerName: string,
   state: string,
   redirectUri: string,
-  env: Env
+  env: Env,
 ): string {
   const provider = getOAuthProvider(providerName, env);
 
@@ -40,22 +40,10 @@ export function buildAuthorizationUrl(
   let authUrl = provider.authorizationUrl(state, redirectUri);
 
   // Replace placeholders with actual values
-  authUrl = authUrl.replace(
-    "GITHUB_CLIENT_ID",
-    env.GITHUB_CLIENT_ID || ""
-  );
-  authUrl = authUrl.replace(
-    "GOOGLE_CLIENT_ID",
-    env.GOOGLE_CLIENT_ID || ""
-  );
-  authUrl = authUrl.replace(
-    "AUTH0_CLIENT_ID",
-    env.AUTH0_CLIENT_ID || ""
-  );
-  authUrl = authUrl.replace(
-    "AUTH0_DOMAIN",
-    env.AUTH0_DOMAIN || ""
-  );
+  authUrl = authUrl.replace("GITHUB_CLIENT_ID", env.GITHUB_CLIENT_ID || "");
+  authUrl = authUrl.replace("GOOGLE_CLIENT_ID", env.GOOGLE_CLIENT_ID || "");
+  authUrl = authUrl.replace("AUTH0_CLIENT_ID", env.AUTH0_CLIENT_ID || "");
+  authUrl = authUrl.replace("AUTH0_DOMAIN", env.AUTH0_DOMAIN || "");
 
   return authUrl;
 }
@@ -72,7 +60,7 @@ export async function handleOAuthCallback(
   providerName: string,
   code: string,
   redirectUri: string,
-  env: Env
+  env: Env,
 ): Promise<SessionUser> {
   const provider = getOAuthProvider(providerName, env);
 
@@ -87,7 +75,7 @@ export async function handleOAuthCallback(
     providerName,
     userInfo,
     tokenData.access_token,
-    env
+    env,
   );
 
   return user;
@@ -105,7 +93,7 @@ async function findOrCreateUser(
   providerName: string,
   userInfo: NormalizedUser,
   accessToken: string,
-  env: Env
+  env: Env,
 ): Promise<SessionUser> {
   const db = getDb(env.DB);
 

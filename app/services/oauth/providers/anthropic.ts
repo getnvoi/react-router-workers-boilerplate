@@ -44,7 +44,7 @@ export async function generatePKCE(): Promise<PKCEParams> {
  * Returns both the URL and the verifier (verifier must be stored in session)
  */
 export async function buildAnthropicAuthUrl(
-  state: string
+  state: string,
 ): Promise<AnthropicAuthResult> {
   const pkce = await generatePKCE();
 
@@ -70,7 +70,7 @@ export async function buildAnthropicAuthUrl(
  */
 export async function exchangeAnthropicToken(
   code: string,
-  verifier: string
+  verifier: string,
 ): Promise<TokenResponse> {
   // The code might contain both code and state separated by #
   const splits = code.split("#");
@@ -94,13 +94,17 @@ export async function exchangeAnthropicToken(
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Anthropic token exchange failed: ${response.status} - ${error}`);
+    throw new Error(
+      `Anthropic token exchange failed: ${response.status} - ${error}`,
+    );
   }
 
   const data = await response.json<TokenResponse & { error?: string }>();
 
   if (data.error || !data.access_token) {
-    throw new Error(`Anthropic OAuth error: ${data.error || "No access token"}`);
+    throw new Error(
+      `Anthropic OAuth error: ${data.error || "No access token"}`,
+    );
   }
 
   return data;
@@ -111,7 +115,7 @@ export async function exchangeAnthropicToken(
  * Note: Anthropic's user API might be different - this is a placeholder
  */
 export async function fetchAnthropicUserInfo(
-  accessToken: string
+  accessToken: string,
 ): Promise<NormalizedUser> {
   // TODO: Update this URL when Anthropic provides a user info endpoint
   // For now, we'll use a placeholder that returns basic info
@@ -149,12 +153,12 @@ export const anthropicProvider: OAuthProvider = {
   async exchangeToken(
     code: string,
     _redirectUri: string,
-    _env: Env
+    _env: Env,
   ): Promise<TokenResponse> {
     // This method signature doesn't support PKCE verifier
     // Use exchangeAnthropicToken directly in the route instead
     throw new Error(
-      "Use exchangeAnthropicToken with verifier for Anthropic OAuth"
+      "Use exchangeAnthropicToken with verifier for Anthropic OAuth",
     );
   },
 

@@ -21,7 +21,7 @@ export const githubProvider: OAuthProvider = {
   async exchangeToken(
     code: string,
     redirectUri: string,
-    env: Env
+    env: Env,
   ): Promise<TokenResponse> {
     const response = await fetch(TOKEN_URL, {
       method: "POST",
@@ -86,9 +86,10 @@ export const githubProvider: OAuthProvider = {
       });
 
       if (emailsResponse.ok) {
-        const emails = await emailsResponse.json<
-          Array<{ email: string; primary: boolean; verified: boolean }>
-        >();
+        const emails =
+          await emailsResponse.json<
+            Array<{ email: string; primary: boolean; verified: boolean }>
+          >();
         const primaryEmail = emails.find((e) => e.primary && e.verified);
         email = primaryEmail?.email;
       }

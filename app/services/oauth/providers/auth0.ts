@@ -23,7 +23,7 @@ export const auth0Provider: OAuthProvider = {
   async exchangeToken(
     code: string,
     redirectUri: string,
-    env: Env
+    env: Env,
   ): Promise<TokenResponse> {
     const domain = env.AUTH0_DOMAIN;
     if (!domain) {
@@ -64,7 +64,7 @@ export const auth0Provider: OAuthProvider = {
     // Note: This assumes AUTH0_DOMAIN is available globally
     // In practice, you might need to pass env through or use a different approach
     throw new Error(
-      "Auth0 userinfo requires domain - use handler.ts implementation"
+      "Auth0 userinfo requires domain - use handler.ts implementation",
     );
   },
 };
@@ -94,7 +94,7 @@ export function createAuth0Provider(env: Env): OAuthProvider {
     async exchangeToken(
       code: string,
       redirectUri: string,
-      _env: Env
+      _env: Env,
     ): Promise<TokenResponse> {
       const tokenUrl = `${baseUrl}/oauth/token`;
 
@@ -119,7 +119,9 @@ export function createAuth0Provider(env: Env): OAuthProvider {
       const data = await response.json<TokenResponse & { error?: string }>();
 
       if (data.error || !data.access_token) {
-        throw new Error(`Auth0 OAuth error: ${data.error || "No access token"}`);
+        throw new Error(
+          `Auth0 OAuth error: ${data.error || "No access token"}`,
+        );
       }
 
       return data;
