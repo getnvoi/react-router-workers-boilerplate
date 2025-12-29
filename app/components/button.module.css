@@ -1,0 +1,124 @@
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+  gap: var(--spacing-2);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
+
+.button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Variants */
+.primary {
+  background: var(--color-blue-600);
+  color: var(--color-white);
+}
+
+.primary:hover:not([data-disabled]) {
+  background: var(--color-blue-700);
+}
+
+.primary:active:not([data-disabled]) {
+  background: var(--color-blue-800);
+}
+
+.secondary {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.secondary:hover:not([data-disabled]) {
+  background: var(--color-gray-200);
+}
+
+.secondary:active:not([data-disabled]) {
+  background: var(--color-gray-300);
+}
+
+@media (prefers-color-scheme: dark) {
+  .secondary {
+    background: var(--color-gray-800);
+    color: var(--color-gray-100);
+  }
+
+  .secondary:hover:not([data-disabled]) {
+    background: var(--color-gray-700);
+  }
+
+  .secondary:active:not([data-disabled]) {
+    background: var(--color-gray-600);
+  }
+}
+
+.danger {
+  background: var(--color-red-600);
+  color: var(--color-white);
+}
+
+.danger:hover:not([data-disabled]) {
+  background: var(--color-red-700);
+}
+
+.danger:active:not([data-disabled]) {
+  background: var(--color-red-800);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-gray-700);
+}
+
+.ghost:hover:not([data-disabled]) {
+  background: var(--color-gray-100);
+}
+
+.ghost:active:not([data-disabled]) {
+  background: var(--color-gray-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ghost {
+    color: var(--color-gray-300);
+  }
+
+  .ghost:hover:not([data-disabled]) {
+    background: var(--color-gray-800);
+  }
+
+  .ghost:active:not([data-disabled]) {
+    background: var(--color-gray-700);
+  }
+}
+
+/* Sizes */
+.sm {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.md {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.lg {
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
