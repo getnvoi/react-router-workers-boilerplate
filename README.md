@@ -6,13 +6,18 @@ A modern, production-ready template for building full-stack React applications w
 
 ### Quick Start
 
-1. **Click "Use this template" on GitHub** to create your repository
-2. **Clone your new repository**
-3. **Run the setup script:**
-   ```bash
-   ./setup.sh your-app-name
-   ```
-   This automatically updates all configuration files with your app name.
+```bash
+# 1. Click "Use this template" on GitHub to create your repo
+# 2. Clone YOUR new repository
+git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+cd YOUR-REPO-NAME
+
+# 3. Run setup script
+./setup.sh your-app-name
+
+# 4. Install dependencies
+npm install
+```
 
 ### Environment Setup
 
