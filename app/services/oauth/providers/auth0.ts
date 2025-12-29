@@ -60,7 +60,7 @@ export const auth0Provider: OAuthProvider = {
     return data;
   },
 
-  async fetchUserInfo(accessToken: string): Promise<NormalizedUser> {
+  async fetchUserInfo(): Promise<NormalizedUser> {
     // Note: This assumes AUTH0_DOMAIN is available globally
     // In practice, you might need to pass env through or use a different approach
     throw new Error(
@@ -94,7 +94,6 @@ export function createAuth0Provider(env: Env): OAuthProvider {
     async exchangeToken(
       code: string,
       redirectUri: string,
-      _env: Env,
     ): Promise<TokenResponse> {
       const tokenUrl = `${baseUrl}/oauth/token`;
 

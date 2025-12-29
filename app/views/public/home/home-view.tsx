@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { LinkButton } from "~/components";
 import type { SessionUser } from "~/sessions.server";
 import styles from "./home-view.module.css";

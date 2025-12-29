@@ -114,9 +114,7 @@ export async function exchangeAnthropicToken(
  * Fetch user information from Anthropic
  * Note: Anthropic's user API might be different - this is a placeholder
  */
-export async function fetchAnthropicUserInfo(
-  accessToken: string,
-): Promise<NormalizedUser> {
+export async function fetchAnthropicUserInfo(): Promise<NormalizedUser> {
   // TODO: Update this URL when Anthropic provides a user info endpoint
   // For now, we'll use a placeholder that returns basic info
 
@@ -144,17 +142,13 @@ export async function fetchAnthropicUserInfo(
 export const anthropicProvider: OAuthProvider = {
   name: "anthropic",
 
-  authorizationUrl(state: string, _redirectUri: string): string {
+  authorizationUrl(): string {
     // This is a placeholder - actual implementation needs async PKCE generation
     // The real flow is handled in oauth.anthropic.tsx
     return AUTHORIZATION_URL;
   },
 
-  async exchangeToken(
-    code: string,
-    _redirectUri: string,
-    _env: Env,
-  ): Promise<TokenResponse> {
+  async exchangeToken(): Promise<TokenResponse> {
     // This method signature doesn't support PKCE verifier
     // Use exchangeAnthropicToken directly in the route instead
     throw new Error(

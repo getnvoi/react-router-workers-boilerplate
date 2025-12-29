@@ -29,14 +29,14 @@ interface ComboboxProps {
 
 // Type guard to check if options are grouped
 function isGroupedOptions(
-  options: ComboboxOption[] | ComboboxGroup[]
+  options: ComboboxOption[] | ComboboxGroup[],
 ): options is ComboboxGroup[] {
   return options.length > 0 && "options" in options[0];
 }
 
 // Flatten grouped options for filtering
 function flattenOptions(
-  options: ComboboxOption[] | ComboboxGroup[]
+  options: ComboboxOption[] | ComboboxGroup[],
 ): ComboboxOption[] {
   if (isGroupedOptions(options)) {
     return options.flatMap((group) => group.options);
@@ -47,12 +47,12 @@ function flattenOptions(
 // Filter options based on search query
 function filterOptions(
   options: ComboboxOption[],
-  query: string
+  query: string,
 ): ComboboxOption[] {
   if (!query.trim()) return options;
   const lowerQuery = query.toLowerCase();
   return options.filter((option) =>
-    option.label.toLowerCase().includes(lowerQuery)
+    option.label.toLowerCase().includes(lowerQuery),
   );
 }
 
@@ -71,14 +71,11 @@ export function Combobox({
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
-  const flatOptions = React.useMemo(
-    () => flattenOptions(options),
-    [options]
-  );
+  const flatOptions = React.useMemo(() => flattenOptions(options), [options]);
 
   const filteredOptions = React.useMemo(
     () => (searchable ? filterOptions(flatOptions, inputValue) : flatOptions),
-    [flatOptions, inputValue, searchable]
+    [flatOptions, inputValue, searchable],
   );
 
   // Get selected option(s) for display
@@ -162,12 +159,12 @@ export function Combobox({
 
         <BaseCombobox.Positioner className={styles.positioner}>
           <BaseCombobox.Popup className={styles.popup}>
-              {isGroupedOptions(options) ? (
-                // Render grouped options
+            {isGroupedOptions(options)
+              ? // Render grouped options
                 options.map((group) => {
                   const groupFilteredOptions = filterOptions(
                     group.options,
-                    inputValue
+                    inputValue,
                   );
                   if (groupFilteredOptions.length === 0) return null;
 
@@ -190,8 +187,7 @@ export function Combobox({
                     </BaseCombobox.Group>
                   );
                 })
-              ) : (
-                // Render flat options
+              : // Render flat options
                 filteredOptions.map((option) => (
                   <BaseCombobox.Item
                     key={option.value}
@@ -202,8 +198,7 @@ export function Combobox({
                     <Check size={16} className={styles.checkIcon} />
                     <span>{option.label}</span>
                   </BaseCombobox.Item>
-                ))
-              )}
+                ))}
 
             {filteredOptions.length === 0 && (
               <div className={styles.empty}>{emptyMessage}</div>

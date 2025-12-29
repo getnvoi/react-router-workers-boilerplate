@@ -31,7 +31,7 @@ export default {
     });
   },
 
-  async queue(batch, env, ctx) {
+  async queue(batch, env) {
     // Process all jobs in parallel
     await Promise.allSettled(
       batch.messages.map(async (msg) => {

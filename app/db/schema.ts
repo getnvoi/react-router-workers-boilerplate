@@ -27,6 +27,33 @@ export const users = sqliteTable("users", {
   lastLoginAt: text("last_login_at"),
 });
 
+export const workspaces = sqliteTable("workspaces", {
+  id: text("id").primaryKey(), // UUID
+  name: text("name").notNull(),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+export const workspaceUsers = sqliteTable("workspace_users", {
+  id: text("id").primaryKey(), // UUID
+  workspaceId: text("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, { onDelete: "cascade" }),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: text("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: text("updated_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
 export const jobs = sqliteTable("jobs", {
   id: text("id").primaryKey(),
   userId: text("user_id")

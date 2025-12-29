@@ -6,7 +6,8 @@ import type { Button as BaseButton } from "@base-ui/react/button";
 type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
-interface LinkButtonProps extends Omit<BaseButton.Props, "className" | "render"> {
+interface LinkButtonProps
+  extends Omit<BaseButton.Props, "className" | "render"> {
   href: string;
   variant?: ButtonVariant;
   size?: ButtonSize;

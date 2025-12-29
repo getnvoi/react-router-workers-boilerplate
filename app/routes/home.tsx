@@ -3,7 +3,7 @@ import { getUserFromSession } from "~/services/auth.server";
 import { getConfiguredProviders } from "~/services/oauth/handler";
 import { HomeView } from "~/views/public/home/home-view";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "nvoi - Multi-Provider OAuth" },
     { name: "description", content: "Welcome to nvoi!" },

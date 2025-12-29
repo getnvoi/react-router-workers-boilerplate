@@ -96,46 +96,44 @@ export function Select({
 
         <BaseSelect.Positioner className={styles.positioner}>
           <BaseSelect.Popup className={styles.popup}>
-              {isGroupedOptions(options)
-                ? // Render grouped options
-                  options.map((group) => (
-                    <BaseSelect.Group key={group.label}>
-                      <BaseSelect.GroupLabel className={styles.groupLabel}>
-                        {group.label}
-                      </BaseSelect.GroupLabel>
-                      {group.options.map((option) => (
-                        <BaseSelect.Item
-                          key={option.value}
-                          value={option.value}
-                          className={styles.item}
-                          disabled={option.disabled}
-                        >
-                          <BaseSelect.ItemIndicator
-                            className={styles.indicator}
-                          >
-                            <Check size={16} />
-                          </BaseSelect.ItemIndicator>
-                          <BaseSelect.ItemText>
-                            {option.label}
-                          </BaseSelect.ItemText>
-                        </BaseSelect.Item>
-                      ))}
-                    </BaseSelect.Group>
-                  ))
-                : // Render flat options
-                  flatOptions.map((option) => (
-                    <BaseSelect.Item
-                      key={option.value}
-                      value={option.value}
-                      className={styles.item}
-                      disabled={option.disabled}
-                    >
-                      <BaseSelect.ItemIndicator className={styles.indicator}>
-                        <Check size={16} />
-                      </BaseSelect.ItemIndicator>
-                      <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
-                    </BaseSelect.Item>
-                  ))}
+            {isGroupedOptions(options)
+              ? // Render grouped options
+                options.map((group) => (
+                  <BaseSelect.Group key={group.label}>
+                    <BaseSelect.GroupLabel className={styles.groupLabel}>
+                      {group.label}
+                    </BaseSelect.GroupLabel>
+                    {group.options.map((option) => (
+                      <BaseSelect.Item
+                        key={option.value}
+                        value={option.value}
+                        className={styles.item}
+                        disabled={option.disabled}
+                      >
+                        <BaseSelect.ItemIndicator className={styles.indicator}>
+                          <Check size={16} />
+                        </BaseSelect.ItemIndicator>
+                        <BaseSelect.ItemText>
+                          {option.label}
+                        </BaseSelect.ItemText>
+                      </BaseSelect.Item>
+                    ))}
+                  </BaseSelect.Group>
+                ))
+              : // Render flat options
+                flatOptions.map((option) => (
+                  <BaseSelect.Item
+                    key={option.value}
+                    value={option.value}
+                    className={styles.item}
+                    disabled={option.disabled}
+                  >
+                    <BaseSelect.ItemIndicator className={styles.indicator}>
+                      <Check size={16} />
+                    </BaseSelect.ItemIndicator>
+                    <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+                  </BaseSelect.Item>
+                ))}
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
       </BaseSelect.Root>

@@ -117,10 +117,7 @@ export function RadioGroup({
   ...props
 }: RadioGroupProps) {
   return (
-    <BaseRadioGroup.Root
-      className={`${styles.group} ${className}`}
-      {...props}
-    >
+    <BaseRadioGroup.Root className={`${styles.group} ${className}`} {...props}>
       {options
         ? options.map((option) => (
             <label key={option.value} className={styles.label}>
