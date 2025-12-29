@@ -36,9 +36,10 @@ export async function initTestDb(d1: D1Database) {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       email TEXT NOT NULL,
+      password_hash TEXT,
       provider TEXT,
       remote_id TEXT,
-      access_token TEXT NOT NULL,
+      access_token TEXT,
       login TEXT,
       name TEXT,
       avatar_url TEXT,
@@ -49,6 +50,17 @@ export async function initTestDb(d1: D1Database) {
       created_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
       last_login_at TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS system_users (
+      id TEXT PRIMARY KEY,
+      email TEXT NOT NULL,
+      password_hash TEXT NOT NULL,
+      name TEXT,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updated_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS system_users_email_unique ON system_users(email);
 
     CREATE TABLE IF NOT EXISTS workspaces (
       id TEXT PRIMARY KEY,
@@ -83,7 +95,28 @@ export async function initTestDb(d1: D1Database) {
       started_at TEXT,
       completed_at TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
-    )`),
+    );
+
+    CREATE TABLE IF NOT EXISTS workspace_invites (
+      id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL,
+      email TEXT NOT NULL,
+      user_id TEXT,
+      invited_by_user_id TEXT NOT NULL,
+      token TEXT NOT NULL,
+      role TEXT NOT NULL,
+      status TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      accepted_at TEXT,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updated_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (invited_by_user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS workspace_invites_token_unique ON workspace_invites(token);
+    `),
   ]);
 }
 
@@ -94,8 +127,10 @@ export async function truncateTestDb(d1: D1Database) {
   // SQLite doesn't have TRUNCATE, so we DELETE all rows
   // Order matters due to foreign keys
   await d1.batch([
+    d1.prepare("DELETE FROM workspace_invites"),
     d1.prepare("DELETE FROM workspace_users"),
     d1.prepare("DELETE FROM workspaces"),
+    d1.prepare("DELETE FROM system_users"),
     d1.prepare("DELETE FROM jobs"),
     d1.prepare("DELETE FROM users"),
   ]);
