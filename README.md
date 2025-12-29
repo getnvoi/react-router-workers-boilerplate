@@ -9,8 +9,11 @@ A modern, production-ready template for building full-stack React applications u
 - 📦 Asset bundling and optimization
 - 🔄 Data loading and mutations
 - 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
+- 🎨 Base UI components with CSS Modules
+- ✅ Vitest testing infrastructure
+- 🌓 Dark mode support
 - 📖 [React Router docs](https://reactrouter.com/)
+- 📘 [Base UI docs](https://base-ui.com)
 
 ## Getting Started
 
@@ -70,9 +73,69 @@ You can then promote a version to production after verification or roll it out p
 npx wrangler versions deploy
 ```
 
-## Styling
+## Components & Styling
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+This template uses [Base UI](https://base-ui.com) with CSS Modules for styling:
+
+- **Base UI**: Unstyled, accessible React components
+- **CSS Modules**: Scoped styling with zero runtime overhead
+- **Design System**: CSS custom properties in `app/app.css`
+- **Dark Mode**: Automatic support via `prefers-color-scheme`
+
+### Available Components
+
+See `app/components/README.md` for full documentation:
+
+- Button, LinkButton, Avatar, Dialog
+- Checkbox, Switch, Input, Field, Form
+- Toast, Accordion, Select, Menu, Tabs
+- And 40+ more components
+
+### Component Usage
+
+```tsx
+import { Button, LinkButton, Avatar, Dialog } from "~/components";
+
+// Button
+<Button variant="primary" size="md">Click me</Button>
+
+// Link as Button
+<LinkButton variant="primary" href="/dashboard">Dashboard</LinkButton>
+
+// Avatar with fallback
+<Avatar src={user.avatarUrl} alt={user.name} size="md" />
+
+// Dialog
+<Dialog.Root>
+  <Dialog.Trigger><Button>Open</Button></Dialog.Trigger>
+  <Dialog.Content>
+    <Dialog.Title>Title</Dialog.Title>
+    <Dialog.Description>Description</Dialog.Description>
+  </Dialog.Content>
+</Dialog.Root>
+```
+
+### Architecture
+
+- **Routes** (`app/routes/`) - Data loading only (loaders/actions)
+- **Views** (`app/views/`) - All JSX components organized by namespace
+- **Layouts** (`app/layouts/`) - App, public, and system layouts
+- **Components** (`app/components/`) - Reusable Base UI components
+
+## Testing
+
+Run tests with Vitest:
+
+```bash
+# Watch mode
+npm test
+
+# Run once
+npm run test:run
+
+# UI dashboard
+npm run test:ui
+```
 
 ---
 
