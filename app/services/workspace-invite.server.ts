@@ -84,7 +84,8 @@ export async function getInviteByToken(
 export async function acceptInvite(
   db: ReturnType<typeof getDb>,
   token: string,
-  userId: string
+  userId: string,
+  userEmail: string
 ): Promise<void> {
   const invite = await getInviteByToken(db, token);
 
@@ -94,6 +95,11 @@ export async function acceptInvite(
 
   if (invite.status !== "pending") {
     throw new Error("Invite is no longer pending");
+  }
+
+  // Verify user's email matches invite email
+  if (invite.email.toLowerCase() !== userEmail.toLowerCase()) {
+    throw new Error("This invite was sent to a different email address");
   }
 
   // Check if expired
