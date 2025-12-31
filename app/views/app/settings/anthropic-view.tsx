@@ -1,8 +1,7 @@
-import { Form } from "react-router";
-import { Button, LinkButton, Input, Field } from "~/components";
+import { Form, Link } from "react-router";
+import { Button, Input, Field } from "~/components";
 import { Check, ExternalLink, Info } from "lucide-react";
 import type { SessionUser } from "~/sessions.server";
-import styles from "./anthropic-view.module.css";
 
 interface AnthropicViewProps {
   authUrl: string;
@@ -16,80 +15,80 @@ export function AnthropicView({
   user,
 }: AnthropicViewProps) {
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Claude Settings</h1>
-          <p className={styles.subtitle}>
+    <div >
+      <div >
+        <div >
+          <h1 >Claude Settings</h1>
+          <p >
             Connect your Claude account to enable AI-powered features
           </p>
         </div>
 
-        <div className={styles.card}>
+        <div >
           {isConnected ? (
-            <div className={styles.connected}>
-              <div className={styles.statusHeader}>
-                <div className={styles.iconWrapper}>
-                  <Check className={styles.checkIcon} />
+            <div >
+              <div >
+                <div >
+                  <Check  />
                 </div>
                 <div>
-                  <h3 className={styles.statusTitle}>Claude Connected</h3>
-                  <p className={styles.statusText}>
+                  <h3 >Claude Connected</h3>
+                  <p >
                     Your Claude account is connected and ready to use
                   </p>
                 </div>
               </div>
 
-              <div className={styles.divider}>
-                <h4 className={styles.sectionTitle}>Account Info</h4>
-                <dl className={styles.accountInfo}>
-                  <div className={styles.infoRow}>
-                    <dt className={styles.infoLabel}>User:</dt>
-                    <dd className={styles.infoValue}>
+              <div >
+                <h4 >Account Info</h4>
+                <dl >
+                  <div >
+                    <dt >User:</dt>
+                    <dd >
                       {user.name || user.login}
                     </dd>
                   </div>
                 </dl>
               </div>
 
-              <div className={styles.divider}>
+              <div >
                 <Button variant="secondary" size="md">
                   Disconnect Claude
                 </Button>
               </div>
             </div>
           ) : (
-            <div className={styles.disconnected}>
-              <div className={styles.step}>
-                <h3 className={styles.stepTitle}>
+            <div >
+              <div >
+                <h3 >
                   Step 1: Authorize with Claude
                 </h3>
-                <p className={styles.stepText}>
+                <p >
                   Click the button below to open the Claude authorization page:
                 </p>
                 <a
                   href={authUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.externalLink}
+                  
                 >
-                  <Button variant="primary" size="md">
+                  <Button size="md">
                     Open Claude Authorization
-                    <ExternalLink className={styles.linkIcon} />
+                    <ExternalLink  />
                   </Button>
                 </a>
               </div>
 
-              <div className={styles.step}>
-                <h3 className={styles.stepTitle}>
+              <div >
+                <h3 >
                   Step 2: Enter Authorization Code
                 </h3>
-                <p className={styles.stepText}>
+                <p >
                   After authorizing, copy the code shown by Claude and paste it
                   below:
                 </p>
 
-                <Form method="post" className={styles.form}>
+                <Form method="post" >
                   <input
                     type="hidden"
                     name="state"
@@ -98,19 +97,14 @@ export function AnthropicView({
 
                   <Field.Root name="code">
                     <Field.Label>Authorization Code</Field.Label>
-                    <Input
-                      id="code"
-                      name="code"
+                    <Field.Control
                       type="text"
                       required
                       placeholder="Paste code here (e.g., abc123#xyz789)"
                     />
-                    <Field.Description>
-                      The code may include a # symbol - paste the entire string
-                    </Field.Description>
                   </Field.Root>
 
-                  <Button variant="primary" size="md" type="submit">
+                  <Button type="submit" size="md">
                     Connect Claude Account
                   </Button>
                 </Form>
@@ -119,14 +113,14 @@ export function AnthropicView({
           )}
         </div>
 
-        <div className={styles.helpCard}>
-          <div className={styles.helpContent}>
-            <div className={styles.helpIcon}>
+        <div >
+          <div >
+            <div >
               <Info />
             </div>
             <div>
-              <h3 className={styles.helpTitle}>About Claude OAuth</h3>
-              <p className={styles.helpText}>
+              <h3 >About Claude OAuth</h3>
+              <p >
                 This connection uses OAuth with PKCE (Proof Key for Code
                 Exchange) for secure authentication. The authorization code must
                 be manually entered because Anthropic redirects to their console,
@@ -136,10 +130,10 @@ export function AnthropicView({
           </div>
         </div>
 
-        <div className={styles.footer}>
-          <LinkButton href="/app" variant="ghost" size="sm">
-            ← Back to app
-          </LinkButton>
+        <div >
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/app">← Back to app</Link>
+          </Button>
         </div>
       </div>
     </div>

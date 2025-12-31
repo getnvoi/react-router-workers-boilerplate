@@ -1,207 +1,147 @@
 import * as React from "react";
-import { Field as BaseField } from "@base-ui/react/field";
-import styles from "./field.module.css";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-/**
- * Field Component - Form field wrapper with label, description, and error handling
- *
- * @example
- * // Basic text field with label
- * <Field.Root name="username">
- *   <Field.Label>Username</Field.Label>
- *   <Field.Control type="text" placeholder="Enter username" required />
- *   <Field.Error match="valueMissing">Username is required</Field.Error>
- * </Field.Root>
- *
- * @example
- * // Email field with description and validation
- * <Field.Root name="email" validationMode="onBlur">
- *   <Field.Label>Email</Field.Label>
- *   <Field.Control type="email" required />
- *   <Field.Error match="valueMissing">Email is required</Field.Error>
- *   <Field.Error match="typeMismatch">Must be a valid email</Field.Error>
- *   <Field.Description>We'll never share your email</Field.Description>
- * </Field.Root>
- *
- * @example
- * // Using with Base UI Input component
- * import { Input } from "~/components";
- * <Field.Root name="password">
- *   <Field.Label>Password</Field.Label>
- *   <Input type="password" required minLength={8} />
- *   <Field.Error match="valueMissing">Password is required</Field.Error>
- *   <Field.Error match="tooShort">Must be at least 8 characters</Field.Error>
- * </Field.Root>
- *
- * @example
- * // URL field with pattern validation
- * <Field.Root name="website">
- *   <Field.Label>Website</Field.Label>
- *   <Field.Control
- *     type="url"
- *     pattern="https?://.*"
- *     placeholder="https://example.com"
- *   />
- *   <Field.Error match="patternMismatch">Must be a valid URL</Field.Error>
- *   <Field.Description>Your personal or company website</Field.Description>
- * </Field.Root>
- *
- * @example
- * // Number field with range validation
- * <Field.Root name="age">
- *   <Field.Label>Age</Field.Label>
- *   <Field.Control type="number" min={18} max={120} required />
- *   <Field.Error match="rangeUnderflow">Must be at least 18</Field.Error>
- *   <Field.Error match="rangeOverflow">Must be less than 120</Field.Error>
- * </Field.Root>
- *
- * @example
- * // Textarea field
- * <Field.Root name="bio">
- *   <Field.Label>Bio</Field.Label>
- *   <Field.Control
- *     render={(props) => <textarea {...props} rows={4} />}
- *     maxLength={500}
- *   />
- *   <Field.Error match="tooLong">Bio must be 500 characters or less</Field.Error>
- *   <Field.Description>Tell us about yourself</Field.Description>
- * </Field.Root>
- *
- * @example
- * // With custom input wrapper (icons, buttons inside)
- * <Field.Root name="search">
- *   <Field.Label>Search</Field.Label>
- *   <div className={styles.inputWrapper}>
- *     <Input placeholder="Search..." />
- *     <SearchIcon className={styles.icon} />
- *   </div>
- *   <Field.Description>Search for users, posts, or tags</Field.Description>
- * </Field.Root>
- *
- * @example
- * // With Select component
- * import { Select } from "~/components";
- * <Field.Root name="country">
- *   <Field.Label>Country</Field.Label>
- *   <Field.Description>Select your country</Field.Description>
- *   <Select.Root>
- *     <Select.Trigger>
- *       <Select.Value placeholder="Choose a country" />
- *     </Select.Trigger>
- *     <Select.Portal>
- *       <Select.Content>
- *         <Select.Item value="us">United States</Select.Item>
- *         <Select.Item value="uk">United Kingdom</Select.Item>
- *       </Select.Content>
- *     </Select.Portal>
- *   </Select.Root>
- * </Field.Root>
- *
- * @example
- * // With Checkbox component
- * import { Checkbox } from "~/components";
- * <Field.Root>
- *   <Field.Label>
- *     <Checkbox name="terms" required />
- *     I agree to the terms and conditions
- *   </Field.Label>
- *   <Field.Error match="valueMissing">You must accept the terms</Field.Error>
- * </Field.Root>
- *
- * @example
- * // Multiple validation modes
- * <Field.Root name="username" validationMode="onChange">
- *   <Field.Label>Username</Field.Label>
- *   <Field.Control
- *     type="text"
- *     pattern="[a-zA-Z0-9_]{3,16}"
- *     required
- *   />
- *   <Field.Error match="valueMissing">Username is required</Field.Error>
- *   <Field.Error match="patternMismatch">
- *     3-16 characters, letters, numbers, and underscores only
- *   </Field.Error>
- *   <Field.Description>This will be your public identifier</Field.Description>
- * </Field.Root>
- *
- * @example
- * // Custom error rendering
- * <Field.Root name="custom">
- *   <Field.Label>Custom Field</Field.Label>
- *   <Field.Control type="text" required />
- *   <Field.Error
- *     render={(props) => (
- *       <div {...props} className={styles.customError}>
- *         <AlertIcon /> {props.children}
- *       </div>
- *     )}
- *     match="valueMissing"
- *   >
- *     This field is required
- *   </Field.Error>
- * </Field.Root>
- */
-
-interface FieldRootProps extends BaseField.Root.Props {
-  className?: string;
+// Context for compound component pattern
+interface FieldContextValue {
+  name: string;
+  error?: string;
 }
 
-function FieldRoot({ className = "", ...props }: FieldRootProps) {
+const FieldContext = React.createContext<FieldContextValue | null>(null);
+
+const useFieldContext = () => {
+  const context = React.useContext(FieldContext);
+  if (!context) {
+    throw new Error("Field components must be used within Field.Root");
+  }
+  return context;
+};
+
+// Root component
+export interface FieldRootProps extends React.ComponentPropsWithoutRef<"div"> {
+  name: string;
+  error?: string;
+}
+
+const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
+  ({ name, error, className, children, ...props }, ref) => {
+    return (
+      <FieldContext.Provider value={{ name, error }}>
+        <div ref={ref} className={cn("space-y-2", className)} {...props}>
+          {children}
+        </div>
+      </FieldContext.Provider>
+    );
+  },
+);
+FieldRoot.displayName = "FieldRoot";
+
+// Label component
+export interface FieldLabelProps
+  extends React.ComponentPropsWithoutRef<typeof Label> {
+  required?: boolean;
+}
+
+const FieldLabel = React.forwardRef<
+  React.ElementRef<typeof Label>,
+  FieldLabelProps
+>(({ required, children, ...props }, ref) => {
+  const { name } = useFieldContext();
   return (
-    <BaseField.Root className={`${styles.root} ${className}`} {...props} />
+    <Label ref={ref} htmlFor={name} {...props}>
+      {children}
+      {required && <span className="text-destructive ml-1">*</span>}
+    </Label>
   );
-}
+});
+FieldLabel.displayName = "FieldLabel";
 
-interface FieldLabelProps extends BaseField.Label.Props {
-  className?: string;
-}
+// Control component (Input)
+export interface FieldControlProps
+  extends React.ComponentPropsWithoutRef<typeof Input> {}
 
-function FieldLabel({ className = "", ...props }: FieldLabelProps) {
+const FieldControl = React.forwardRef<
+  React.ElementRef<typeof Input>,
+  FieldControlProps
+>((props, ref) => {
+  const { name, error } = useFieldContext();
   return (
-    <BaseField.Label className={`${styles.label} ${className}`} {...props} />
+    <>
+      <Input
+        ref={ref}
+        id={name}
+        name={name}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error ? `${name}-error` : undefined}
+        {...props}
+      />
+      {error && (
+        <p id={`${name}-error`} className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
+    </>
   );
+});
+FieldControl.displayName = "FieldControl";
+
+// Simple single-component API (backwards compatibility)
+export interface FieldProps extends React.ComponentPropsWithoutRef<"div"> {
+  label?: string;
+  name: string;
+  type?: string;
+  error?: string;
+  required?: boolean;
+  defaultValue?: string;
 }
 
-interface FieldControlProps extends BaseField.Control.Props {
-  className?: string;
-}
+const FieldSimple = React.forwardRef<HTMLDivElement, FieldProps>(
+  (
+    {
+      label,
+      name,
+      type = "text",
+      error,
+      required,
+      defaultValue,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <div ref={ref} className={cn("space-y-2", className)} {...props}>
+        {label && (
+          <Label htmlFor={name}>
+            {label}
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
+        )}
+        <Input
+          id={name}
+          name={name}
+          type={type}
+          defaultValue={defaultValue}
+          required={required}
+          aria-invalid={error ? "true" : "false"}
+          aria-describedby={error ? `${name}-error` : undefined}
+        />
+        {error && (
+          <p id={`${name}-error`} className="text-sm text-destructive">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  },
+);
+FieldSimple.displayName = "Field";
 
-function FieldControl({ className = "", ...props }: FieldControlProps) {
-  return (
-    <BaseField.Control
-      className={`${styles.control} ${className}`}
-      {...props}
-    />
-  );
-}
-
-interface FieldErrorProps extends BaseField.Error.Props {
-  className?: string;
-}
-
-function FieldError({ className = "", ...props }: FieldErrorProps) {
-  return (
-    <BaseField.Error className={`${styles.error} ${className}`} {...props} />
-  );
-}
-
-interface FieldDescriptionProps extends BaseField.Description.Props {
-  className?: string;
-}
-
-function FieldDescription({ className = "", ...props }: FieldDescriptionProps) {
-  return (
-    <BaseField.Description
-      className={`${styles.description} ${className}`}
-      {...props}
-    />
-  );
-}
-
-export const Field = {
+// Export compound component
+export const Field = Object.assign(FieldSimple, {
   Root: FieldRoot,
   Label: FieldLabel,
   Control: FieldControl,
-  Error: FieldError,
-  Description: FieldDescription,
-};
+});

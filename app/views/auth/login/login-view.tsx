@@ -1,5 +1,4 @@
 import { Field, Button } from "~/components";
-import styles from "./login-view.module.css";
 
 interface LoginViewProps {
   error?: string;
@@ -7,10 +6,10 @@ interface LoginViewProps {
 
 export function LoginView({ error }: LoginViewProps) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Login</h1>
+    <div >
+      <h1 >Login</h1>
 
-      <form method="post" className={styles.form}>
+      <form method="post" >
         <Field.Root name="email">
           <Field.Label>Email</Field.Label>
           <Field.Control type="email" required placeholder="you@example.com" />
@@ -21,16 +20,16 @@ export function LoginView({ error }: LoginViewProps) {
           <Field.Control type="password" required />
         </Field.Root>
 
-        {error && <div className={styles.error}>{error}</div>}
+        {error && <div >{error}</div>}
 
-        <Button type="submit" className={styles.submitButton}>
+        <Button type="submit" >
           Login
         </Button>
       </form>
 
-      <p className={styles.footer}>
+      <p >
         Don't have an account?{" "}
-        <a href="/auth/register" className={styles.link}>
+        <a href="/auth/register" >
           Sign up
         </a>
       </p>

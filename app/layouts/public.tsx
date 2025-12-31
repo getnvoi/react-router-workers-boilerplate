@@ -1,19 +1,18 @@
 import { Outlet, Link } from "react-router";
-import { LinkButton } from "~/components";
-import styles from "./public.module.css";
+import { Button } from "~/components";
 
 export default function PublicLayout() {
   return (
     <>
-      <nav className={styles.nav}>
-        <div className={styles.container}>
-          <div className={styles.navContent}>
-            <Link to="/" className={styles.logo}>
+      <nav >
+        <div >
+          <div >
+            <Link to="/" >
               nvoi
             </Link>
-            <LinkButton variant="primary" size="md" href="/oauth/github">
-              Login with GitHub
-            </LinkButton>
+            <Button size="md" asChild>
+              <Link to="/oauth/github">Login with GitHub</Link>
+            </Button>
           </div>
         </div>
       </nav>

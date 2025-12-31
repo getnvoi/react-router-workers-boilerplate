@@ -5,7 +5,6 @@ import { JobsProvider } from "~/contexts/jobs";
 import { getDb, jobs as jobsTable } from "~/db";
 import { eq, desc } from "drizzle-orm";
 import { Button, Avatar } from "~/components";
-import styles from "./app.module.css";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const user = await requireUser(request);
@@ -27,26 +26,26 @@ export default function AppLayout({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <nav className={styles.nav}>
-        <div className={styles.container}>
-          <div className={styles.navContent}>
-            <div className={styles.leftSection}>
-              <Link to="/" className={styles.logo}>
+      <nav >
+        <div >
+          <div >
+            <div >
+              <Link to="/" >
                 nvoi
               </Link>
-              <Link to="/app" className={styles.navLink}>
+              <Link to="/app" >
                 Dashboard
               </Link>
             </div>
 
-            <div className={styles.rightSection}>
-              <div className={styles.userInfo}>
+            <div >
+              <div >
                 <Avatar
                   src={user.avatarUrl}
                   alt={user.name || user.login}
                   size="md"
                 />
-                <span className={styles.userName}>
+                <span >
                   {user.name || user.login}
                 </span>
               </div>

@@ -1,5 +1,4 @@
 import { Field, Button } from "~/components";
-import styles from "./register-view.module.css";
 
 interface RegisterViewProps {
   error?: string;
@@ -7,10 +6,10 @@ interface RegisterViewProps {
 
 export function RegisterView({ error }: RegisterViewProps) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Create Account</h1>
+    <div >
+      <h1 >Create Account</h1>
 
-      <form method="post" className={styles.form}>
+      <form method="post" >
         <Field.Root name="name">
           <Field.Label>Name (optional)</Field.Label>
           <Field.Control type="text" placeholder="John Doe" />
@@ -27,16 +26,16 @@ export function RegisterView({ error }: RegisterViewProps) {
           <Field.Description>At least 12 characters</Field.Description>
         </Field.Root>
 
-        {error && <div className={styles.error}>{error}</div>}
+        {error && <div >{error}</div>}
 
-        <Button type="submit" className={styles.submitButton}>
+        <Button type="submit" >
           Create Account
         </Button>
       </form>
 
-      <p className={styles.footer}>
+      <p >
         Already have an account?{" "}
-        <a href="/auth/login" className={styles.link}>
+        <a href="/auth/login" >
           Login
         </a>
       </p>

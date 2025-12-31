@@ -1,6 +1,7 @@
-import { LinkButton } from "~/components";
+import { Link } from "react-router";
+import { Github, Globe, Lock } from "lucide-react";
+import { Button } from "~/components";
 import type { SessionUser } from "~/sessions.server";
-import styles from "./home-view.module.css";
 
 interface HomeViewProps {
   user: SessionUser | null;
@@ -10,50 +11,46 @@ interface HomeViewProps {
 const providerConfig = {
   github: {
     name: "GitHub",
-    icon: "🐙",
+    icon: <Github />,
   },
   google: {
     name: "Google",
-    icon: "🔍",
+    icon: <Globe />,
   },
   auth0: {
     name: "Auth0",
-    icon: "🔐",
+    icon: <Lock />,
   },
 };
 
 export function HomeView({ user, providers }: HomeViewProps) {
   return (
-    <main className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.textCenter}>
-          <h1 className={styles.title}>Welcome to nvoi</h1>
-          <p className={styles.description}>
+    <main>
+      <div>
+        <div>
+          <h1>Welcome to nvoi</h1>
+          <p>
             {user
               ? `You're logged in as ${user.login || user.name}`
               : "Please login to continue"}
           </p>
 
           {user ? (
-            <LinkButton variant="primary" size="lg" href="/app">
-              Go to App
-            </LinkButton>
+            <Button size="lg" asChild>
+              <Link to="/app">Go to App</Link>
+            </Button>
           ) : (
-            <div className={styles.buttonGroup}>
+            <div>
               {providers.map((provider) => {
                 const config =
                   providerConfig[provider as keyof typeof providerConfig];
                 return (
-                  <LinkButton
-                    key={provider}
-                    variant="primary"
-                    size="lg"
-                    href={`/oauth/${provider}`}
-                    className={styles.providerButton}
-                  >
-                    <span className={styles.icon}>{config.icon}</span>
-                    <span>Login with {config.name}</span>
-                  </LinkButton>
+                  <Button key={provider} size="lg" asChild>
+                    <Link to={`/oauth/${provider}`}>
+                      {config.icon}
+                      <span>Login with {config.name}</span>
+                    </Link>
+                  </Button>
                 );
               })}
             </div>

@@ -1,17 +1,16 @@
 import { Outlet, Link } from "react-router";
-import styles from "./system.module.css";
 
 export default function SystemLayout() {
   return (
     <>
-      <nav className={styles.nav}>
-        <div className={styles.container}>
-          <div className={styles.navContent}>
-            <Link to="/system" className={styles.logo}>
-              nvoi <span className={styles.badge}>System</span>
+      <nav >
+        <div >
+          <div >
+            <Link to="/system" >
+              nvoi <span >System</span>
             </Link>
-            <div className={styles.navLinks}>
-              <Link to="/system" className={styles.navLink}>
+            <div >
+              <Link to="/system" >
                 Dashboard
               </Link>
             </div>

@@ -4,33 +4,22 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "nvoi",
+	"name": "formblocks",
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
-	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare",
-	},
 	"observability": {
 		"enabled": true,
 	},
-	// D1 Database
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "nvoi_production",
-			"database_id": "35720a84-9ead-446c-89e1-ea826d492ae2",
-		},
-	],
 	"queues": {
 		"producers": [
 			{
-				"queue": "nvoi-jobs",
+				"queue": "formblocks-jobs",
 				"binding": "JOB_QUEUE",
 			},
 		],
 		"consumers": [
 			{
-				"queue": "nvoi-jobs",
+				"queue": "formblocks-jobs",
 				"max_batch_size": 10,
 				"max_batch_timeout": 5,
 			},
@@ -52,20 +41,33 @@
 	],
 	// Environments
 	"env": {
-		"production": {
-			"routes": [
+		"development": {
+			"d1_databases": [
 				{
-					"pattern": "nvoi.to/*",
-					"zone_name": "nvoi.to",
-				},
-				{
-					"pattern": "*.nvoi.to/*",
-					"zone_name": "nvoi.to",
+					"binding": "DB",
+					"database_name": "formblocks_development",
+					"database_id": "6f1eb644-411d-4c7c-bbe4-1a9b1ad0ea53",
 				},
 			],
-			"vars": {
-				"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare",
-			},
+		},
+		"production": {
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "formblocks_production",
+					"database_id": "ec616264-1bda-440f-880d-00e15f1c7a0d",
+				},
+			],
+			"routes": [
+				{
+					"pattern": "formblocks.app/*",
+					"zone_name": "formblocks.app",
+				},
+				{
+					"pattern": "*.formblocks.app/*",
+					"zone_name": "formblocks.app",
+				},
+			],
 		},
 	},
 	/**

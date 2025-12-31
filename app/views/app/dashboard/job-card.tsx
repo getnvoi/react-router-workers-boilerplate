@@ -1,4 +1,3 @@
-import styles from "./job-card.module.css";
 
 interface Job {
   id: string;
@@ -49,9 +48,9 @@ export function JobCard({ job, type }: JobCardProps) {
   }
 
   return (
-    <div className={styles.card} data-status={job.status}>
-      <span className={styles.status}>{statusContent}</span>
-      <span className={styles.timestamp}>
+    <div  data-status={job.status}>
+      <span >{statusContent}</span>
+      <span >
         ({new Date(job.createdAt).toLocaleTimeString()})
       </span>
     </div>
